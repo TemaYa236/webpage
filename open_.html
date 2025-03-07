@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>С 8 Марта!</title>
+    <style>
+        body { margin: 0; height: 100vh; overflow: hidden; background: linear-gradient(#ffb3d8, #ffffff); font-family: 'Arial', sans-serif; display: flex; justify-content: center; align-items: center; }
+        .text-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; z-index: 2;}
+        .message { position: absolute; opacity: 0; width: 100%; font-size: 2.5em; color: #ff0066; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); text-align: center; transition: all 1s ease; left: 50%; transform: translateX(-50%); pointer-events: none; }
+        .message.active { opacity: 1; transform: translate(-50%, 0); }
+        .message.hiding { opacity: 0; transform: translate(-50%, -30px); }
+        .heart { position: fixed; top: -10%; color: #ff3366; font-size: 100px; animation: fall 8s linear infinite; }
+        .flower { position: fixed; font-size: 0; animation: grow 8s linear infinite; z-index: 1; }
+        .music-control { position: fixed; bottom: 20px; right: 20px; z-index: 3; background-color: #ff3366; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        @keyframes grow { from { font-size: 0; bottom: -10%; opacity: 0.8; transform: rotate(0deg); } to { font-size: 120px; bottom: 110%; opacity: 0.8; transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="text-container">
+        <div class="message">С 8 марта, солнышко!</div>
+        <div class="message">Пусть этот день будет наполнен радостью!</div>
+        <div class="message">Желаю тебе всего самого прекрасного!</div>
+        <div class="message">Ты делаешь мир ярче!</div>
+        <div class="message">Спасибо, что ты есть!</div>
+        <div class="message">Твоя улыбка бесценна!</div>
+        <div class="message">Пусть сбудутся все твои мечты!</div>
+        <div class="message">Оставайся такой же прекрасной!</div>
+        <div class="message">Весеннего настроения тебе!</div>
+        <div class="message">Я люблю тебя!</div>
+    </div><audio id="background-music" loop><source src="music.mp3" type="audio/mpeg"> ошибочка воспроизведения </audio>
+    <button class="music-control" onclick="toggleMusic()">🎵 Включить музычку</button>
+    <script>
+        const messages = document.querySelectorAll('.message');
+        let current = 0;
+        function showNextMessage() { messages[current].classList.add('hiding'); messages[current].classList.remove('active'); current = (current + 1) % messages.length; setTimeout(() => { messages[current].classList.remove('hiding'); messages[current].classList.add('active'); }, 1000); setTimeout(showNextMessage, 4000); }
+        messages[0].classList.add('active');
+        setTimeout(showNextMessage, 4000);
+        function createHearts() { setInterval(() => { const heart = document.createElement('div'); heart.innerHTML = '♥'; heart.className = 'heart'; heart.style.left = Math.random() * 100 + '%'; heart.style.animationDuration = Math.random() * 2 + 6 + 's'; document.body.appendChild(heart); setTimeout(() => heart.remove(), 9000); }, 500); }
+        function createRoses() { setInterval(() => { const rose = document.createElement('div'); rose.innerHTML = '🌸'; rose.className = 'flower'; rose.style.left = Math.random() * 100 + '%'; rose.style.animationDuration = Math.random() * 2 + 6 + 's'; document.body.appendChild(rose); setTimeout(() => rose.remove(), 9000); }, 500); }
+        const music = document.getElementById('background-music');
+        const musicButton = document.querySelector('.music-control');
+        function toggleMusic() { if (music.paused) { music.play(); musicButton.textContent = '🎵 Выключить музычку'; } else { music.pause(); musicButton.textContent = '🎵 Включить музычку'; } }
+        window.addEventListener('load', () => { music.play().catch(() => { musicButton.textContent = '🎵 Включить музычку'; }); });
+        createHearts();
+        createRoses();
+    </script>
+</body>
+</html>
